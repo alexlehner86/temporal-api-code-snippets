@@ -26,7 +26,7 @@ calendarDate.toLocaleString("de-AT", { dateStyle: "full" }); // "Mittwoch, 9. Ap
 calendarDate.toLocaleString("en-US", { year: "numeric", month: "long" }); // "April 2025" 
 ```
 
-### Adding/subtracting duration
+### Adding/subtracting duration to/from date
 ```
 let calendarDate = new Temporal.PlainDate(2025, 4, 9); // "2025-04-09"
 let newDate = calendarDate.add({ weeks: 5 });
@@ -55,17 +55,52 @@ Temporal.PlainDate.compare(otherDate, otherDate); // 0 (means: is equal)
 
 ### Create a new plain time object
 ```
-todo
+let t1 = Temporal.PlainTime.from("12:29:20.105"); // "12:29:20.105"
+t1 = new Temporal.PlainTime(14, 55, 10, 250); // "14:55:10.25"
 ```
 
 ### Access parts of the plain time object
 ```
-todo
+t1.hour; // 14
+t1.minute; // 55
+t1.second; // 10
+t1.millisecond; // 250
+t1.microsecond; // 0
+t1.nanosecond; // 0 
 ```
 
-### Formatting: Create a language-sensitive representation of the date
+### Formatting: Create a language-sensitive representation of the time
 ```
-todo
+let t1 = new Temporal.PlainTime(14, 55, 10, 250); // "14:55:10.25"
+t1.toLocaleString("en-US"); // "2:55:10 PM"
+t1.toLocaleString("de-AT"); // "14:55:10"
+t1.toLocaleString("de-AT", { timeStyle: "short" }); // "14:55"
+t1.toLocaleString("en-US", { hour: "2-digit" }); // "02 PM"
+```
+
+### Adding/subtracting duration to/from time
+```
+let t1 = new Temporal.PlainTime(14, 55, 10, 250); // "14:55:10.25"
+let t2 = t1.add({ seconds: 5000 });
+t2.toString(); // "16:18:30.25" 
+
+t2 = t2.subtract({ hours: 5, minutes: 48 }); 
+t2.toString(); // "10:30:30.25" 
+
+const duration = Temporal.PlainTime.from("00:00:00").until("02:15:30"); // 2 hours, 15 minutes, 30 seconds
+t2 = t2.add(duration);
+t2.toString(); // "12:46:00.25"
+```
+
+### Compare plain times
+```
+let t1 = new Temporal.PlainTime(14, 55, 10, 250); // "14:55:10.25"
+let t2 = Temporal.PlainTime.from("12:29:20.105"); // "12:29:20.105"
+t1.equals(t2); // false
+
+Temporal.PlainTime.compare(t1, t2); // 1 (means: is after)
+Temporal.PlainTime.compare(t2, t1); // -1 (means: is before)
+Temporal.PlainTime.compare(t2, t2); // 0 (means: is equal)
 ```
 
 ## Temporal.PlainDateTime
