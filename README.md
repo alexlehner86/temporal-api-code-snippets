@@ -105,4 +105,29 @@ Temporal.PlainTime.compare(t2, t2); // 0 (means: is equal)
 
 ## Temporal.PlainDateTime
 
-asdf
+### Create a new datetime object
+```
+let datetime = Temporal.PlainDateTime.from("2020-10-15T08:30:00"); // "2020-10-15T08:30:00"
+datetime = new Temporal.PlainDateTime(2025, 4, 30, 8, 25); // "2025-04-30T08:25:00"
+```
+
+### Access parts of the datetime object
+```
+datetime.year; // 2025
+datetime.month; // 4
+datetime.day; // 30
+datetime.dayOfWeek; // 3
+datetime.hour; // 8
+datetime.minute; // 25
+datetime.second; // 0
+datetime.millisecond; // 0
+datetime.microsecond; // 0
+datetime.nanosecond; // 0 
+```
+
+### Formatting: Create a language-sensitive representation of the datetime
+```
+let datetime = new Temporal.PlainDateTime(2025, 4, 30, 8, 25); // "2025-04-30T08:25:00"
+datetime.toLocaleString("en-US"); // "4/30/2025, 8:25:00 AM"
+datetime.toLocaleString("de-AT", { dateStyle: "full", timeStyle: "short" }); // "Mittwoch, 30. April 2025 um 08:25"
+```
