@@ -182,3 +182,65 @@ Temporal.Instant.compare(instant1, instant2); // -1 (means: is before)
 Temporal.Instant.compare(instant2, instant1); // 1 (means: is after)
 Temporal.Instant.compare(instant2, instant2); // 0 (means: is equal)
 ```
+
+## Temporal.ZonedDateTime
+
+### Create a new zoned datetime object
+
+You need to use a [supported time zone string](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) to create a `Temporal.ZonedDateTime` object.
+
+```
+let datetime1 = Temporal.ZonedDateTime.from({ timeZone: "Europe/Vienna", year: 2025, month: 4, day: 9, hour: 14 }); // "2025-04-09T14:00:00+02:00[Europe/Vienna]" 
+let datetime2 = Temporal.ZonedDateTime.from("2020-10-15T08:30Z[America/New_York]"); // "2020-10-15T04:30:00-04:00[America/New_York]"
+let datetime3 = new Temporal.ZonedDateTime(1744198593000000000n, "Europe/Vienna");
+let datetime4 = Temporal.Instant.fromEpochMilliseconds(1744198593000).toZonedDateTimeISO("Europe/Vienna"); // "2025-04-09T13:36:33+02:00[Europe/Vienna]"
+```
+
+### Access parts of the zoned datetime object
+```
+datetime4.year; // 2025
+datetime4.month; // 4
+datetime4.day; // 9
+datetime4.dayOfWeek; // 3
+datetime4.hour; // 13
+datetime4.minute; // 36
+datetime4.second; // 33
+datetime4.millisecond; // 0
+datetime4.microsecond; // 0
+datetime4.nanosecond; // 0
+datetime4.epochMilliseconds; // 1744198593000
+datetime4.epochNanoseconds; // 1744198593000000000n 
+```
+
+### Formatting: Create a language-sensitive representation of the zoned datetime
+```
+let datetime = Temporal.ZonedDateTime.from("2020-10-15T08:30Z[America/New_York]"); // "2020-10-15T04:30:00-04:00[America/New_York]"
+datetime.toLocaleString("en-US"); // "10/15/2020, 4:30:00 AM EDT"
+
+let datetimeInAustria = datetime.withTimeZone("Europe/Vienna"); // "2020-10-15T10:30:00+02:00[Europe/Vienna]"
+datetimeInAustria.toLocaleString("de-AT", { dateStyle: "full", timeStyle: "short" }); // "Donnerstag, 15. Oktober 2020 um 10:30"
+```
+
+### Adding/subtracting duration to/from zoned datetime
+```
+let datetime = Temporal.ZonedDateTime.from("2025-01-12T08:45[Europe/Vienna]"); // "2025-01-12T08:45:00+01:00[Europe/Vienna]"
+let newDatetime = datetime.add({ months: 7, weeks: 3 });
+newDatetime.toString(); // "2025-09-02T08:45:00+02:00[Europe/Vienna]" 
+
+newDatetime = newDatetime.subtract({ years: 2, days: 50 });
+newDatetime.toString(); // "2023-07-14T08:45:00+02:00[Europe/Vienna]" 
+```
+
+### Compare zoned datetimes
+
+The `Temporal.ZonedDateTime.prototype.equals()` method takes into account the instant and the time zone:
+```
+let datetime1 = Temporal.ZonedDateTime.from("2020-10-15T08:30Z[America/New_York]"); // "2020-10-15T04:30:00-04:00[America/New_York]"
+let datetime2 = Temporal.ZonedDateTime.from("2020-10-15T10:30:00+02:00[Europe/Vienna]"); // "2020-10-15T10:30:00+02:00[Europe/Vienna]"
+datetime1.equals(datetime2); // false
+```
+
+On the other hand, the `Temporal.ZonedDateTime.compare()` method only compares the instants:
+```
+Temporal.ZonedDateTime.compare(datetime1, datetime2); // 0 (means: is equal)
+```
