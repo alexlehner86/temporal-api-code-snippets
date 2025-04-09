@@ -9,7 +9,7 @@ let calendarDate = Temporal.PlainDate.from("2021-01-01"); // "2021-01-01"
 calendarDate = new Temporal.PlainDate(2025, 4, 9); // "2025-04-09"
 ```
 
-### Access parts of the date
+### Access parts of the plain date object
 ```
 calendarDate.day; // 9
 calendarDate.dayOfWeek; // 3
@@ -53,7 +53,20 @@ Temporal.PlainDate.compare(otherDate, otherDate); // 0 (means: is equal)
 
 ## Temporal.PlainTime
 
-asdf
+### Create a new plain time object
+```
+todo
+```
+
+### Access parts of the plain time object
+```
+todo
+```
+
+### Formatting: Create a language-sensitive representation of the date
+```
+todo
+```
 
 ## Temporal.PlainDateTime
 
