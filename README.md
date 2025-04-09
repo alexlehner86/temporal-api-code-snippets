@@ -131,3 +131,54 @@ let datetime = new Temporal.PlainDateTime(2025, 4, 30, 8, 25); // "2025-04-30T08
 datetime.toLocaleString("en-US"); // "4/30/2025, 8:25:00 AM"
 datetime.toLocaleString("de-AT", { dateStyle: "full", timeStyle: "short" }); // "Mittwoch, 30. April 2025 um 08:25"
 ```
+
+## Temporal.Instant
+
+### Create a new instant object
+```
+let instant1 = Temporal.Instant.fromEpochMilliseconds(1744198593000); // "2025-04-09T11:36:33Z"
+let instant2 = new Temporal.Instant(1744199062000000000n); // "2025-04-09T11:44:22Z"; equivalent to Temporal.Instant.fromEpochNanoseconds()
+let instant3 = Temporal.Instant.from("2022-07-10T12:00Z"); // "2022-07-10T12:00:00Z"
+let instant4 = Temporal.Instant.from("2023-01-01T15+01:00"); // "2023-01-01T14:00:00Z"
+```
+
+### Access parts of the instant object
+```
+let instant1 = Temporal.Instant.fromEpochMilliseconds(1744198593000); // "2025-04-09T11:36:33Z"
+instant1.epochMilliseconds; // 1744198593000
+instant1.epochNanoseconds; // 1744198593000000000n 
+```
+
+### Formatting: Create a language-sensitive representation of this instant
+```
+let instant1 = Temporal.Instant.fromEpochMilliseconds(1744198593000); // "2025-04-09T11:36:33Z"
+// toLocaleString() automatically uses current timezone of browser (in this case: UTC+2)
+instant1.toLocaleString("en-US"); // "4/9/2025, 1:36:33 PM"
+instant1.toLocaleString("de-AT", { dateStyle: "full", timeStyle: "short" }); // "Mittwoch, 9. April 2025 um 13:36"
+```
+
+### Adding/subtracting duration to/from instant
+```
+let instant1 = Temporal.Instant.fromEpochMilliseconds(1744198593000); // "2025-04-09T11:36:33Z"
+let instant2 = instant1.add({ hours: 20 });
+instant2.toString(); // "2025-04-10T07:36:33Z" 
+
+const duration = Temporal.Duration.from({ minutes: 30 }); // "PT30M"
+instant2 = instant2.subtract(duration);
+instant2.toString(); // "2025-04-10T07:06:33Z" 
+
+// It's not possible to add or subtract days, months or years because the Temporal.Instant object has no defined time zone.
+instant2 = instant2.add({ days: 20 });
+// Uncaught RangeError: duration "days" property must be zero
+```
+
+### Compare two instants
+```
+let instant1 = Temporal.Instant.from("2022-07-10T12:00Z"); // "2022-07-10T12:00:00Z"
+let instant2 = Temporal.Instant.from("2023-01-01T15+01:00"); // "2023-01-01T14:00:00Z"
+instant1.equals(instant2);  // false
+
+Temporal.Instant.compare(instant1, instant2); // -1 (means: is before)
+Temporal.Instant.compare(instant2, instant1); // 1 (means: is after)
+Temporal.Instant.compare(instant2, instant2); // 0 (means: is equal)
+```
