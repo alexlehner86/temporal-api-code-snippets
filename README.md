@@ -1,5 +1,8 @@
 # Temporal API: Code Snippets
-Code snippets for working with the new Temporal API in JavaScript. At the moment, only works in Firefox Nightly! Mozilla plans to [ship the feature in Firefox 139](https://groups.google.com/a/mozilla.org/g/dev-platform/c/RtsRo93ygO4/m/2YzM42GUBwAJ). Implementation in other browsers is still in progress.
+
+Code snippets for working with the new [Temporal API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal) in JavaScript, which enables date and time management in various scenarios. At the moment, only works in Firefox Nightly!
+
+Mozilla plans to [ship the feature in Firefox 139](https://groups.google.com/a/mozilla.org/g/dev-platform/c/RtsRo93ygO4/m/2YzM42GUBwAJ). Implementation in other browsers is still in progress ([Chromium](https://issues.chromium.org/issues/42201538), [WebKit/Safari](https://bugs.webkit.org/show_bug.cgi?id=223166)).
 
 ## Temporal.PlainDate
 
@@ -192,24 +195,37 @@ You need to use a [supported time zone string](https://en.wikipedia.org/wiki/Lis
 ```
 let datetime1 = Temporal.ZonedDateTime.from({ timeZone: "Europe/Vienna", year: 2025, month: 4, day: 9, hour: 14 }); // "2025-04-09T14:00:00+02:00[Europe/Vienna]" 
 let datetime2 = Temporal.ZonedDateTime.from("2020-10-15T08:30Z[America/New_York]"); // "2020-10-15T04:30:00-04:00[America/New_York]"
-let datetime3 = new Temporal.ZonedDateTime(1744198593000000000n, "Europe/Vienna");
-let datetime4 = Temporal.Instant.fromEpochMilliseconds(1744198593000).toZonedDateTimeISO("Europe/Vienna"); // "2025-04-09T13:36:33+02:00[Europe/Vienna]"
+let datetime3 = new Temporal.ZonedDateTime(1744198593000000000n, "Europe/Vienna"); // "2025-04-09T13:36:33+02:00[Europe/Vienna]"
+```
+
+You can also convert an instant or a plain datetime to a zoned datetime.
+
+```
+// Instant to ZonedDateTime
+let instant = Temporal.Instant.fromEpochMilliseconds(1744198593000);
+let datetime4 = instant.toZonedDateTimeISO("Europe/Vienna"); // "2025-04-09T13:36:33+02:00[Europe/Vienna]"
+```
+```
+// PlainDateTime to ZonedDateTime
+let plainDate = Temporal.PlainDateTime.from("2025-04-09T13:36:33");
+let datetime5 = plainDate.toZonedDateTime("Europe/Vienna"); // "2025-04-09T13:36:33+02:00[Europe/Vienna]"
 ```
 
 ### Access parts of the zoned datetime object
 ```
-datetime4.year; // 2025
-datetime4.month; // 4
-datetime4.day; // 9
-datetime4.dayOfWeek; // 3
-datetime4.hour; // 13
-datetime4.minute; // 36
-datetime4.second; // 33
-datetime4.millisecond; // 0
-datetime4.microsecond; // 0
-datetime4.nanosecond; // 0
-datetime4.epochMilliseconds; // 1744198593000
-datetime4.epochNanoseconds; // 1744198593000000000n 
+let datetime = new Temporal.ZonedDateTime(1744198593000000000n, "Europe/Vienna"); // "2025-04-09T13:36:33+02:00[Europe/Vienna]"
+datetime.year; // 2025
+datetime.month; // 4
+datetime.day; // 9
+datetime.dayOfWeek; // 3
+datetime.hour; // 13
+datetime.minute; // 36
+datetime.second; // 33
+datetime.millisecond; // 0
+datetime.microsecond; // 0
+datetime.nanosecond; // 0
+datetime.epochMilliseconds; // 1744198593000
+datetime.epochNanoseconds; // 1744198593000000000n 
 ```
 
 ### Formatting: Create a language-sensitive representation of the zoned datetime
