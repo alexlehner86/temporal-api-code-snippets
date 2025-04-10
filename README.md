@@ -276,5 +276,65 @@ let zonedDateTime = Temporal.Now.zonedDateTimeISO(); // "2025-04-10T10:54:22.579
 ### Get the current time zone
 
 ```
-let myTimezone = Temporal.Now.timeZoneId(); // "Europe/Vienna" 
+let myTimezone = Temporal.Now.timeZoneId(); // "Europe/Vienna"
+```
+
+## Temporal.Duration
+
+### Create a new duration object
+
+```
+let duration1 = new Temporal.Duration(1, 2, 4, 15, 20, 30); // P1Y2M4W15DT20H30M
+let duration2 = Temporal.Duration.from({ hours: 1, minutes: 30 }); // "PT1H30M"
+```
+
+You can also create a duration with the combination of the `from` and `until` methods for date/time objects:
+
+```
+let duration3 = Temporal.PlainDate.from("2020-01-01").until("2021-03-15"); // "P439D"
+let duration4 = Temporal.PlainTime.from("12:30").until("17:45"); // "PT5H15M"
+let duration5 = Temporal.PlainDateTime.from("2025-02-02T12:30:22").until("2025-10-15T08:00:27"); // "P254DT19H30M5S"
+```
+
+### Manipulate a duration value
+
+Rounding the duration to a specified unit:
+
+```
+let duration = Temporal.PlainTime.from("12:30").until("17:45"); // "PT5H15M"
+duration = duration.round("hours"); // "PT5H"
+```
+
+When rounding date specific values (e.g. days), we need to provide a `relativeTo` date:
+
+```
+let duration = new Temporal.Duration(1, 2, 4, 15, 20, 30); // "P1Y2M4W15DT20H30M"
+const relativeToDate = Temporal.PlainDateTime.from("2022-01-01");
+duration = duration.round({ smallestUnit: "days", relativeTo: relativeToDate }); // "P1Y3M13D"
+```
+
+### Compare one duration to another
+
+```
+const duration1 = Temporal.PlainDate.from("2020-01-01").until("2021-03-15"); // "P439D"
+const duration2 = Temporal.PlainDate.from("2020-05-10").until("2021-06-15"); // "P401D"
+Temporal.Duration.compare(duration1, duration2); // 1  (means: duration1 is longer)
+```
+
+### Add a duration to a date, time, or datetime
+
+```
+let t1 = new Temporal.PlainTime(14, 55, 10, 250); // "14:55:10.25"
+const duration = Temporal.PlainTime.from("00:00:00").until("02:15:30"); // 2 hours, 15 minutes, 30 seconds
+t1 = t1.add(duration);
+t1.toString(); // "17:10:40.25"
+```
+
+### Subtract a duration from a date, time, or datetime
+
+```
+let calendarDate = new Temporal.PlainDate(2025, 4, 9); // "2025-04-09"
+const duration = Temporal.PlainDate.from("2020-01-01").until("2021-03-15"); // 439 days
+calendarDate = calendarDate.subtract(duration);
+calendarDate.toString(); // "2024-01-26"
 ```
