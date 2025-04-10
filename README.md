@@ -260,3 +260,21 @@ On the other hand, the `Temporal.ZonedDateTime.compare()` method only compares t
 ```
 Temporal.ZonedDateTime.compare(datetime1, datetime2); // 0 (means: is equal)
 ```
+
+## Temporal.Now
+
+### Get the current time in various formats
+
+```
+let instant = Temporal.Now.instant(); // "2025-04-10T08:51:50.74Z"
+let plainDate = Temporal.Now.plainDateISO(); // "2025-04-10"
+let plainTime = Temporal.Now.plainTimeISO(); // "10:53:05.676"
+let plainDateTime = Temporal.Now.plainDateTimeISO(); // "2025-04-10T10:53:51.055"
+let zonedDateTime = Temporal.Now.zonedDateTimeISO(); // "2025-04-10T10:54:22.579+02:00[Europe/Vienna]"
+```
+
+### Get the current time zone
+
+```
+let myTimezone = Temporal.Now.timeZoneId(); // "Europe/Vienna" 
+```
