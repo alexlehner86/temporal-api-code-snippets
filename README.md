@@ -14,10 +14,11 @@ calendarDate = new Temporal.PlainDate(2025, 4, 9); // "2025-04-09"
 
 ### Access parts of the plain date object
 ```
+let calendarDate = Temporal.PlainDate.from("2025-04-09");
 calendarDate.day; // 9
 calendarDate.dayOfWeek; // 3
 calendarDate.month; // 4
-calendarDate.year; // 2025 
+calendarDate.year; // 2025
 ```
 
 ### Formatting: Create a language-sensitive representation of the date
@@ -64,6 +65,7 @@ t1 = new Temporal.PlainTime(14, 55, 10, 250); // "14:55:10.25"
 
 ### Access parts of the plain time object
 ```
+let t1 = Temporal.PlainTime.from("14:55:10.25");
 t1.hour; // 14
 t1.minute; // 55
 t1.second; // 10
@@ -116,6 +118,7 @@ datetime = new Temporal.PlainDateTime(2025, 4, 30, 8, 25); // "2025-04-30T08:25:
 
 ### Access parts of the datetime object
 ```
+let datetime = Temporal.PlainDateTime.from("2025-04-30T08:25:00");
 datetime.year; // 2025
 datetime.month; // 4
 datetime.day; // 30
